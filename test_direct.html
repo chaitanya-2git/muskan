@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Direct API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .button { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 5px; }
+        .result { background: #f8f9fa; padding: 10px; border-radius: 4px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Direct API Testing</h1>
+    
+    <div class="test">
+        <h3>Test API Files Directly (Click to open in new tab):</h3>
+        <a href="./api/simple.php" target="_blank" class="button">Test Simple PHP</a>
+        <a href="./api/test.php" target="_blank" class="button">Test Full API</a>
+        <a href="./api/products.php?action=get_products&limit=3" target="_blank" class="button">Test Products API</a>
+    </div>
+    
+    <div class="test">
+        <h3>Current Status:</h3>
+        <div class="result">
+            <strong>✅ API folder uploaded:</strong> public_html/api/<br>
+            <strong>📁 Files uploaded:</strong> test.php, products.php, contact.php, guest_checkout.php, database.php<br>
+            <strong>🔧 .htaccess created:</strong> For PHP access permissions<br>
+            <strong>🎯 Next:</strong> Click buttons above to test each API file directly
+        </div>
+    </div>
+    
+    <div class="test">
+        <h3>If APIs work, test products page:</h3>
+        <a href="./products.html" target="_blank" class="button">Test Products Page</a>
+        <div class="result">
+            <strong>Note:</strong> If API tests pass but products page still fails, you need to import the database SQL file.
+        </div>
+    </div>
+    
+    <div class="test">
+        <h3>Database Import Instructions:</h3>
+        <div class="result">
+            <ol>
+                <li>Go to <strong>Hostinger cPanel</strong> → <strong>phpMyAdmin</strong></li>
+                <li>Select database: <strong>u628666915_MuskanMedicare</strong></li>
+                <li>Click <strong>Import</strong> tab</li>
+                <li>Upload file: <strong>u628666915_MuskanMedicare_PRODUCTION.sql</strong></li>
+                <li>Click <strong>Go</strong> to import</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

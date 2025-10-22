@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Muskan Medicare - API Fix Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Muskan Medicare - API Fix Test</h1>
+    <p><strong>Testing new API location:</strong> public_html/api/ instead of backend/api/</p>
+    
+    <div class="test" id="test1">
+        <h3>Test 1: New API Test</h3>
+        <p>Testing: ./api/test.php</p>
+        <div id="result1">Loading...</div>
+    </div>
+    
+    <div class="test" id="test2">
+        <h3>Test 2: Products API</h3>
+        <p>Testing: ./api/products.php</p>
+        <div id="result2">Waiting for Test 1...</div>
+    </div>
+    
+    <div class="test" id="test3">
+        <h3>Test 3: Contact API</h3>
+        <p>Testing: ./api/contact.php (POST test)</p>
+        <div id="result3">Waiting for Test 2...</div>
+    </div>
+
+    <script>
+        async function runTests() {
+            // Test 1: New API Test
+            try {
+                const response1 = await fetch('./api/test.php');
+                const text1 = await response1.text();
+                
+                try {
+                    const data1 = JSON.parse(text1);
+                    if (data1.success) {
+                        document.getElementById('result1').innerHTML = `
+                            <strong>✅ API Working!</strong><br>
+                            PHP Version: ${data1.php_version}<br>
+                            Database: ${data1.database || 'Not tested'}<br>
+                            Products Count: ${data1.products_count || 'N/A'}<br>
+                            ${data1.database_error ? `<span style="color: red;">DB Error: ${data1.database_error}</span>` : ''}
+                        `;
+                        document.getElementById('test1').className = 'test success';
+                    } else {
+                        document.getElementById('result1').innerHTML = `❌ API Error: ${data1.message}`;
+                        document.getElementById('test1').className = 'test error';
+                    }
+                } catch (e) {
+                    document.getElementById('result1').innerHTML = `
+                        <strong>❌ JSON Parse Error:</strong><br>
+                        Raw Response: <pre>${text1}</pre>
+                    `;
+                    document.getElementById('test1').className = 'test error';
+                    return;
+                }
+            } catch (e) {
+                document.getElementById('result1').innerHTML = `❌ Fetch Error: ${e.message}`;
+                document.getElementById('test1').className = 'test error';
+                return;
+            }
+            
+            // Test 2: Products API
+            try {
+                const response2 = await fetch('./api/products.php?action=get_products&limit=3');
+                const text2 = await response2.text();
+                
+                try {
+                    const data2 = JSON.parse(text2);
+                    if (data2.success) {
+                        document.getElementById('result2').innerHTML = `
+                            <strong>✅ Products API Working!</strong><br>
+                            Products loaded: ${data2.data ? data2.data.length : 0}<br>
+                            Total available: ${data2.total || 0}<br>
+                            ${data2.data && data2.data.length > 0 ? 
+                                `<strong>Sample Products:</strong><br>` + 
+                                data2.data.map(p => `• ${p.name} - ₹${p.price || p.sale_price}`).join('<br>') 
+                                : 'No products found'}
+                        `;
+                        document.getElementById('test2').className = 'test success';
+                    } else {
+                        document.getElementById('result2').innerHTML = `❌ Products API Error: ${data2.message}`;
+                        document.getElementById('test2').className = 'test error';
+                    }
+                } catch (e) {
+                    document.getElementById('result2').innerHTML = `
+                        <strong>❌ Products JSON Parse Error:</strong><br>
+                        Raw Response: <pre>${text2.substring(0, 500)}...</pre>
+                    `;
+                    document.getElementById('test2').className = 'test error';
+                }
+            } catch (e) {
+                document.getElementById('result2').innerHTML = `❌ Products Fetch Error: ${e.message}`;
+                document.getElementById('test2').className = 'test error';
+            }
+            
+            // Test 3: Contact API (simple GET test)
+            try {
+                const response3 = await fetch('./api/contact.php');
+                const text3 = await response3.text();
+                
+                if (response3.ok) {
+                    document.getElementById('result3').innerHTML = `
+                        <strong>✅ Contact API Accessible!</strong><br>
+                        Status: ${response3.status}<br>
+                        Response: API endpoint is responding
+                    `;
+                    document.getElementById('test3').className = 'test success';
+                } else {
+                    document.getElementById('result3').innerHTML = `
+                        <strong>⚠️ Contact API Warning:</strong><br>
+                        Status: ${response3.status}<br>
+                        Response: <pre>${text3.substring(0, 200)}...</pre>
+                    `;
+                    document.getElementById('test3').className = 'test warning';
+                }
+            } catch (e) {
+                document.getElementById('result3').innerHTML = `❌ Contact API Error: ${e.message}`;
+                document.getElementById('test3').className = 'test error';
+            }
+        }
+        
+        // Run tests when page loads
+        window.onload = runTests;
+    </script>
+    
+    <div style="margin-top: 30px; padding: 15px; background: #e9ecef; border-radius: 5px;">
+        <h4>🎯 Next Steps if Tests Pass:</h4>
+        <ol>
+            <li><strong>Import Database:</strong> Go to Hostinger cPanel → phpMyAdmin → Import SQL file</li>
+            <li><strong>Test Products Page:</strong> Visit <a href="./products.html" target="_blank">products.html</a></li>
+            <li><strong>Test Contact Form:</strong> Visit <a href="./contact.html" target="_blank">contact.html</a></li>
+            <li><strong>Test Checkout:</strong> Add items to cart and test checkout</li>
+        </ol>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Final Database Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 15px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+        .button { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Final Database Connection Test</h1>
+    
+    <div class="test">
+        <h3>Step 1: Verify Database File</h3>
+        <a href="./api/verify_db.php" target="_blank" class="button">Test Database Connection</a>
+        <p>This tests if the database.php file has been updated with 'localhost'</p>
+    </div>
+    
+    <div class="test">
+        <h3>Step 2: Test Products API</h3>
+        <a href="./api/products.php?action=get_products&limit=3" target="_blank" class="button">Test Products API</a>
+        <p>This should return JSON with products from your database</p>
+    </div>
+    
+    <div class="test">
+        <h3>Step 3: Test Categories API</h3>
+        <a href="./api/products.php?action=get_categories" target="_blank" class="button">Test Categories API</a>
+        <p>This should return JSON with product categories</p>
+    </div>
+    
+    <div class="test">
+        <h3>Step 4: Test Full Website</h3>
+        <a href="./products.html" target="_blank" class="button">Open Products Page</a>
+        <p>If APIs work above, this page should load products from database</p>
+    </div>
+    
+    <div class="test">
+        <h3>🔧 If Tests Still Fail:</h3>
+        <ol>
+            <li>Make sure you uploaded the updated <code>api/database.php</code> file</li>
+            <li>Check the file has: <code>private $host = 'localhost';</code></li>
+            <li>Clear browser cache (Ctrl+F5)</li>
+            <li>Wait 2-3 minutes for server updates</li>
+        </ol>
+    </div>
+    
+    <div class="test">
+        <h3>✅ Expected Results:</h3>
+        <ul>
+            <li><strong>verify_db.php:</strong> Should show "Database connection working!" with product count</li>
+            <li><strong>products API:</strong> Should show JSON with product data</li>
+            <li><strong>categories API:</strong> Should show JSON with categories</li>
+            <li><strong>products.html:</strong> Should display products on the page</li>
+        </ul>
+    </div>
+</body>
+</html>

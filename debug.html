@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Muskan Medicare - Debug Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background: #d4edda; }
+        .error { background: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>Muskan Medicare - Diagnostic Tests</h1>
+    
+    <div class="test" id="test1">
+        <h3>Test 1: Simple Backend Test</h3>
+        <p>Testing: ./backend/simple_test.php</p>
+        <div id="result1">Loading...</div>
+    </div>
+    
+    <div class="test" id="test2">
+        <h3>Test 2: Detailed Diagnostic</h3>
+        <p>Testing: ./backend/diagnostic.php</p>
+        <div id="result2">Waiting for Test 1...</div>
+    </div>
+    
+    <div class="test" id="test3">
+        <h3>Test 3: Products API</h3>
+        <p>Testing: ./backend/api/products.php</p>
+        <div id="result3">Waiting for Test 2...</div>
+    </div>
+
+    <script>
+        async function runTests() {
+            // Test 1: Simple Backend Test
+            try {
+                const response1 = await fetch('./backend/simple_test.php');
+                const text1 = await response1.text();
+                
+                try {
+                    const data1 = JSON.parse(text1);
+                    document.getElementById('result1').innerHTML = `
+                        <strong>✅ Basic PHP Working!</strong><br>
+                        PHP Version: ${data1.php_version}<br>
+                        Status: ${data1.status}
+                    `;
+                    document.getElementById('test1').className = 'test success';
+                } catch (e) {
+                    document.getElementById('result1').innerHTML = `
+                        <strong>❌ JSON Parse Error:</strong><br>
+                        Raw Response: <pre>${text1}</pre>
+                    `;
+                    document.getElementById('test1').className = 'test error';
+                    return;
+                }
+            } catch (e) {
+                document.getElementById('result1').innerHTML = `❌ Fetch Error: ${e.message}`;
+                document.getElementById('test1').className = 'test error';
+                return;
+            }
+            
+            // Test 2: Detailed Diagnostic
+            try {
+                const response2 = await fetch('./backend/diagnostic.php');
+                const text2 = await response2.text();
+                
+                try {
+                    const data2 = JSON.parse(text2);
+                    
+                    if (data2.success) {
+                        const tests = data2.tests;
+                        document.getElementById('result2').innerHTML = `
+                            <strong>✅ Diagnostic Complete!</strong><br>
+                            Config File: ${tests.config_file_exists ? '✅ Found' : '❌ Missing'}<br>
+                            Config Loaded: ${tests.config_loaded ? '✅ Yes' : '❌ No'}<br>
+                            Database Class: ${tests.database_class_exists ? '✅ Found' : '❌ Missing'}<br>
+                            DB Connection: ${tests.database_connection ? '✅ Connected' : '❌ Failed'}<br>
+                            Products Table: ${tests.products_table ? '✅ Exists' : '❌ Missing'}<br>
+                            Product Count: ${tests.products_count || 0}<br>
+                            ${tests.database_error ? `DB Error: ${tests.database_error}` : ''}
+                            ${tests.products_error ? `Table Error: ${tests.products_error}` : ''}
+                        `;
+                        document.getElementById('test2').className = 'test success';
+                        
+                        // Test 3: Products API (only if database is working)
+                        if (tests.database_connection) {
+                            try {
+                                const response3 = await fetch('./backend/api/products.php?action=get_products&limit=3');
+                                const data3 = await response3.json();
+                                
+                                if (data3.success) {
+                                    document.getElementById('result3').innerHTML = `
+                                        <strong>✅ Products API Working!</strong><br>
+                                        Products loaded: ${data3.data ? data3.data.length : 0}<br>
+                                        Total available: ${data3.total || 0}
+                                    `;
+                                    document.getElementById('test3').className = 'test success';
+                                } else {
+                                    document.getElementById('result3').innerHTML = `❌ API Error: ${data3.message}`;
+                                    document.getElementById('test3').className = 'test error';
+                                }
+                            } catch (e) {
+                                document.getElementById('result3').innerHTML = `❌ API Connection Failed: ${e.message}`;
+                                document.getElementById('test3').className = 'test error';
+                            }
+                        } else {
+                            document.getElementById('result3').innerHTML = '⏭️ Skipped - Database not connected';
+                            document.getElementById('test3').className = 'test';
+                        }
+                    } else {
+                        document.getElementById('result2').innerHTML = `❌ Diagnostic Failed: ${data2.message}`;
+                        document.getElementById('test2').className = 'test error';
+                    }
+                } catch (e) {
+                    document.getElementById('result2').innerHTML = `
+                        <strong>❌ JSON Parse Error:</strong><br>
+                        Raw Response: <pre>${text2}</pre>
+                    `;
+                    document.getElementById('test2').className = 'test error';
+                }
+            } catch (e) {
+                document.getElementById('result2').innerHTML = `❌ Diagnostic Fetch Error: ${e.message}`;
+                document.getElementById('test2').className = 'test error';
+            }
+        }
+        
+        // Run tests when page loads
+        window.onload = runTests;
+    </script>
+</body>
+</html>

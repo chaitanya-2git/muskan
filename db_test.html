@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Database Connection Diagnostic</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.6; }
+        .section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .warning { background: #fff3cd; border-color: #ffeaa7; }
+        .info { background: #d1ecf1; border-color: #bee5eb; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .button { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Database Connection Diagnostic</h1>
+    
+    <div class="section info">
+        <h3>Current Status:</h3>
+        <p>✅ PHP is working<br>
+        ❓ Database connection needs testing</p>
+    </div>
+    
+    <div class="section">
+        <h3>Step 1: Test Database Connection</h3>
+        <a href="./api/db_diagnostic.php" target="_blank" class="button">Run Database Diagnostic</a>
+        <p>This will test your Hostinger database connection and show detailed results.</p>
+    </div>
+    
+    <div class="section warning">
+        <h3>Expected Database Details:</h3>
+        <ul>
+            <li><strong>Host:</strong> auth-db1332.hstgr.io</li>
+            <li><strong>Database:</strong> u628666915_MuskanMedicare</li>
+            <li><strong>Username:</strong> u628666915_MuskanMedicare</li>
+            <li><strong>Password:</strong> [Cl6bRDV/9</li>
+        </ul>
+    </div>
+    
+    <div class="section">
+        <h3>Common Database Issues & Solutions:</h3>
+        
+        <h4>❌ Issue 1: "Database does not exist"</h4>
+        <p><strong>Solution:</strong> Create the database in Hostinger cPanel:</p>
+        <ol>
+            <li>Go to Hostinger cPanel → MySQL Databases</li>
+            <li>Create database: <code>u628666915_MuskanMedicare</code></li>
+            <li>Or check if database name is different</li>
+        </ol>
+        
+        <h4>❌ Issue 2: "Access denied"</h4>
+        <p><strong>Solution:</strong> Check/update credentials in Hostinger cPanel:</p>
+        <ol>
+            <li>Go to Hostinger cPanel → MySQL Databases</li>
+            <li>Check username and password</li>
+            <li>Ensure user has privileges on the database</li>
+        </ol>
+        
+        <h4>❌ Issue 3: "Can't connect to MySQL server"</h4>
+        <p><strong>Solution:</strong> Check hostname:</p>
+        <ol>
+            <li>Go to Hostinger cPanel → MySQL Databases</li>
+            <li>Check the exact hostname (might be different from auth-db1332.hstgr.io)</li>
+            <li>Update database.php with correct hostname</li>
+        </ol>
+    </div>
+    
+    <div class="section">
+        <h3>Step 2: Import Database Tables (After Connection Works)</h3>
+        <ol>
+            <li>Go to Hostinger cPanel → phpMyAdmin</li>
+            <li>Select your database</li>
+            <li>Click "Import" tab</li>
+            <li>Upload: <code>u628666915_MuskanMedicare_PRODUCTION.sql</code></li>
+            <li>Click "Go" to import</li>
+        </ol>
+    </div>
+    
+    <div class="section">
+        <h3>Step 3: Test After Database Import</h3>
+        <a href="./api/products.php?action=get_products&limit=3" target="_blank" class="button">Test Products API</a>
+        <a href="./products.html" target="_blank" class="button">Test Products Page</a>
+    </div>
+    
+    <div class="section info">
+        <h3>Quick Fix Commands (if needed):</h3>
+        <p>If database credentials are wrong, update in file: <code>/public_html/api/database.php</code></p>
+        <pre>
+// Update these lines with correct values from Hostinger cPanel:
+private $host = 'your-correct-hostname';
+private $db_name = 'your-correct-database-name';
+private $username = 'your-correct-username';
+private $password = 'your-correct-password';
+        </pre>
+    </div>
+</body>
+</html>

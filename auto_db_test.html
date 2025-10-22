@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Auto Database Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .result { margin: 15px 0; padding: 15px; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; }
+        .button { background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 5px; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🎯 Automatic Database Connection Test</h1>
+    
+    <div class="info result">
+        <h3>✅ Database Confirmed:</h3>
+        <p><strong>Name:</strong> u628666915_MuskanMedicare</p>
+        <p><strong>Size:</strong> 3 MB (has data)</p>
+        <p><strong>Domain:</strong> muskanmedicare.com</p>
+    </div>
+    
+    <div class="result">
+        <h3>Testing Common Hostinger Patterns:</h3>
+        <a href="./api/auto_test.php" target="_blank" class="button">🔍 Auto-Test All Patterns</a>
+        <p>This will test 4 common Hostinger database connection patterns automatically.</p>
+    </div>
+    
+    <div class="info result">
+        <h3>📋 Manual Check in Hostinger cPanel:</h3>
+        <ol>
+            <li><strong>Go to:</strong> Hostinger cPanel → "Databases" → "MySQL Databases"</li>
+            <li><strong>Look for section:</strong> "Current Databases"</li>
+            <li><strong>Find:</strong> u628666915_MuskanMedicare</li>
+            <li><strong>Check:</strong> "Privileged Users" column - this shows the username</li>
+            <li><strong>Note:</strong> The hostname (usually "localhost" for Hostinger)</li>
+        </ol>
+    </div>
+    
+    <div class="result">
+        <h3>🔧 If Auto-Test Finds Working Credentials:</h3>
+        <p>I'll update your database.php file with the correct settings.</p>
+        
+        <h3>🔧 If Auto-Test Fails:</h3>
+        <p>We'll need to:</p>
+        <ul>
+            <li>Check the exact username in Hostinger cPanel</li>
+            <li>Verify/reset the database password</li>
+            <li>Confirm the hostname</li>
+        </ul>
+    </div>
+    
+    <div class="result">
+        <h3>📞 Quick Hostinger Support Check:</h3>
+        <p>If all patterns fail, the database credentials might have been changed. Contact Hostinger support or check:</p>
+        <ul>
+            <li><strong>Remote MySQL:</strong> Enable if needed</li>
+            <li><strong>IP Whitelist:</strong> Make sure your server IP is allowed</li>
+            <li><strong>User Privileges:</strong> Ensure user has all privileges on the database</li>
+        </ul>
+    </div>
+    
+    <script>
+        // Auto-run test when page loads
+        window.onload = function() {
+            // Give user a moment to read, then auto-test
+            setTimeout(() => {
+                window.open('./api/auto_test.php', '_blank');
+            }, 2000);
+        };
+    </script>
+</body>
+</html>
